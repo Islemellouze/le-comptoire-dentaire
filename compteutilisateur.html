@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Comptoir Dentaire</title>
+    <link rel="stylesheet" href="style6.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <header class="header">
+        <div class="top-bar">
+            <div class="contact-info">
+                <span>📞 52 664 255</span>
+                <span>🚚 Livraison gratuite à partir de 200 DT sur toute la Tunisie</span>
+            </div>
+            
+            <div class="user-options">
+                
+                
+                <div class="shopping">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="quantity">0</span>
+                </div>
+                <div id="userActions"><a href="site.html" class="link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a></div>
+            </div>
+            <script>
+                // Fonction pour vérifier l'état de la session de l'utilisateur
+                function checkUserSession() {
+                    // Cette vérification devrait être effectuée côté serveur, 
+                    // mais ici nous simulons un état de connexion pour l'exemple
+                    var isUserLoggedIn = false; // Remplacez ceci par une condition réelle
+            
+                    // Vous pouvez passer l'état d'utilisateur (connecté ou non) via AJAX ou via un objet JavaScript injecté par PHP
+                    // Exemple d'injection PHP:
+                    // var isUserLoggedIn = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+            
+                    if (isUserLoggedIn) {
+                        // Si l'utilisateur est connecté, afficher le bouton de déconnexion
+                        document.getElementById('userActions').innerHTML = '<a href="deconnexion.php" class="link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>';
+                    } }
+            
+                // Appeler la fonction dès que le script est chargé
+                checkUserSession();
+            </script>
+            <script>
+                // Ajouter un écouteur d'événements sur le bouton de déconnexion
+                document.querySelector('.link').addEventListener('click', function(event) {
+                    // Effacer le panier du localStorage
+                    localStorage.removeItem('cart');
+                    
+                    // Réinitialiser le compteur à zéro
+                    document.querySelector('.quantity').textContent = '0';
+                    
+                    // Vous pouvez également rediriger l'utilisateur après la déconnexion si nécessaire
+                    window.location.href = 'index.html'; // Changez cette URL si nécessaire
+                });
+            </script>
+            
+        </div>
+        <div class="main-header">
+            <div class="logo">
+                <center><img src="images.png" alt="Logo" class="logo-img" width="250" height="90"></center>
+            </div>
+          
+            
+            <div class="search-container">
+                
+                <input type="text" class="search-box" id="search-box" placeholder="Search Products...">
+                <div class="search-results" id="search-results"></div>
+                <button id="upload-image" title="Recherche visuelle">
+                    <i class="fas fa-camera"></i>
+                </button>
+
+            </div>
+            <!-- Popup ou nouvelle page pour afficher les résultats -->
+<div id="popup" style="display: none;">
+    <div id="popup-results"></div>
+    <button id="close-popup">Fermer</button>
+</div>
+            <div id="mini-page" style="display: none;">
+                <div id="mini-page-content"></div>
+            </div>
+            
+            
+            <script>
+            // Gestion de l'upload d'image
+document.getElementById('upload-image').addEventListener('click', function () {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+
+    input.addEventListener('change', function () {
+        const file = this.files[0];
+        const formData = new FormData();
+        formData.append('image', file);
+
+        // Envoi de la requête au serveur pour analyser l'image
+        fetch('search_by_image.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                const popup = document.getElementById('popup');
+                const popupResults = document.getElementById('popup-results');
+                popupResults.innerHTML = ''; // Effacer les anciens résultats
+
+                if (data.status === 'success') {
+                    data.products.forEach(product => {
+                        const productDiv = document.createElement('div');
+                        productDiv.classList.add('product');
+                        productDiv.innerHTML = `
+                            <img src="${product.image}" alt="${product.nom}">
+                            <div>
+                                <h4>${product.nom}</h4>
+                                <p>${product.prix} DT</p>
+                            </div>
+                        `;
+                        popupResults.appendChild(productDiv);
+                    });
+                } else {
+                    popupResults.innerHTML = `<p>${data.message}</p>`;
+                }
+                
+                popup.style.display = 'flex';  // Afficher la popup
+                document.getElementById('mini-page').style.display = 'none'; // Cacher la mini-page
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+    });
+
+    input.click();
+});
+
+// Fermeture de la popup
+document.getElementById('close-popup').addEventListener('click', function () {
+    document.getElementById('popup').style.display = 'none';
+});
+
+// Recherche dans la barre de texte
+document.getElementById('search-box').addEventListener('input', function () {
+    const query = this.value.trim();
+    const resultsContainer = document.getElementById('search-results');
+
+    if (query.length === 0) {
+        resultsContainer.innerHTML = '';
+        resultsContainer.style.display = 'none';
+        return;
+    }
+
+    fetch(`search_products.php?search=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            resultsContainer.innerHTML = ''; // Effacer les résultats existants
+
+            if (data.length > 0) {
+                data.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product');
+                    productDiv.innerHTML = `
+                        <img src="${product.image}" alt="${product.nom}">
+                        <div>
+                            <h4>${product.nom}</h4>
+                            <p>${product.prix} DT</p>
+                        </div>
+                    `;
+                    resultsContainer.appendChild(productDiv);
+                });
+            } else {
+                resultsContainer.innerHTML = '<p style="padding: 10px;">Aucun produit trouvé.</p>';
+            }
+
+            resultsContainer.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Une erreur s\'est produite, veuillez réessayer.');
+        });
+});
+
+
+            </script>
+        
+        </div>
+    </div>
+    <div class="carousel-container">
+        <div class="carousel-slide">
+            <img src="image7.jpg" alt="Produit 1" class="carousel-image">
+    
+            <div class="carousel-text">
+                
+            </div>
+        </div>
+        <div class="carousel-slide">
+            <img src="image4.png" alt="Produit 2" class="carousel-image">
+            <div class="carousel-text">
+                
+            </div>
+        </div>
+        <div class="carousel-slide">
+            <img src="image3.jpg" alt="Produit 3" class="carousel-image">
+            <div class="carousel-text">
+             
+            </div>
+        </div>
+    </div>
+    <script>
+        const slides = document.querySelectorAll('.carousel-slide');
+        let currentSlide = 0;
+    
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+    
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+    
+        // Changer de slide toutes les 5 secondes
+        setInterval(nextSlide, 5000);
+    
+        // Afficher le premier slide initialement
+        showSlide(currentSlide);
+    </script>
+    
+</header>
+    </header>
+
+    <section id="main-content">
+        <a href="#content" class="scroll-down" id="show-menu-btn">⬇</a>
+        <div id="content">
+            <div class="horizontal-bar"></div>
+        </div>
+    </section>
+    <script>
+        const menuBar = document.getElementById('menu-bar'); // Sélectionner la barre de menu
+        const showMenuBtn = document.getElementById('show-menu-btn'); // Bouton (flèche)
+    
+        showMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Empêcher le comportement par défaut du lien (ancre)
+            
+            // Faire défiler la page vers le contenu principal
+            const target = document.querySelector('#content');
+            target.scrollIntoView({ behavior: 'smooth' }); // Défilement fluide
+    
+            // Afficher la barre de menu après un délai (pour donner le temps au défilement)
+            setTimeout(() => {
+                menuBar.style.display = 'block'; // Afficher le menu
+            }, 1000); // Attendre 1 seconde (ajustez si nécessaire)
+        });
+    </script>
+
+    <div class="container">
+        <div class="section-left">
+            <div class="categories-container">
+                <h2>Catégories</h2>
+                <ul class="category-list" id="category-list">
+                    <li data-category="tous-les-produits">Tous les produits</li>
+                    <li class="new" data-category="new">NEW</li>
+                    <li class="promo" data-category="promo">PROMO</li>
+                    <li class="accessoires" data-category="accessoires">ACCESSOIRES (146)</li>
+                    <li data-category="anesthesie">ANESTHESIE (13)</li>
+                    <li data-category="ciments">CIMENTS ET FONDS DE CAVITÉ (30)</li>
+                    <li data-category="empreintes">EMPREINTES ET ACCESSOIRES (56)</li>
+                    <li data-category="endodontie">ENDODONTIE ET ACCESSOIRES (290)</li>
+                    <li data-category="Films et RADOLOGIE DENTAIR">Films et RADOLOGIE DENTAIR (290)</li>
+                    <li data-category="Gros equipement"> GROS EQUIPEMENTS(18)</li>
+                    <li data-category="implantologie">Implantologie(133)</li>
+                    <li data-category="imprimantes 3d">IMPRIMANTES 3D</li>
+                    <li data-category="INSTRUMENTS ROTATIFS">INSTRUMENTS ROTATIFS(40)</li>
+                    <li data-category="LOGICIELS">LOGICIELS(4)</li>
+                    <li data-category="PACK PROMO">PACK PROMO (0)</li>
+                    <li data-category="PETITS EQUIPEMENTS">PETITS EQUIPEMENTS(69)</li>
+                    <li data-category="PRODUITS D'HYGIENE ET DE DESINFECTION">PRODUITS D'HYGIENE ET DE DESINFECTION (290)</li>
+                </ul> 
+            </div>
+        </div>
+
+        <div class="section-right">
+            <div class="products-container">
+                <div id="products-grid" class="products-grid">
+                   
+                </div>
+            </div>
+            <script>
+        // Load products based on selected category
+        function loadProducts(category = "tous-les-produits") {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "get_products.php?category=" + category, true);
+
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    var products = JSON.parse(xhr.responseText);
+                    var container = document.getElementById('products-grid');
+                    container.innerHTML = ''; // Clear existing products
+
+                    products.forEach(function(product) {
+                        var productDiv = document.createElement('div');
+                        productDiv.classList.add('product');
+                        productDiv.innerHTML = `
+                            <a href="product_detail.php?id=${product.id}">
+                                <h3>${product.nom}</h3>
+                                <img src="${product.image}" alt="${product.nom}" style="width: 150px; height: 150px;">
+                                <p>${product.description}</p>
+                                <p>Prix : ${product.prix} DT</p>
+                            </a>
+                            <button class="add-to-cart" 
+                                    data-id="${product.id}" 
+                                    data-name="${product.nom}" 
+                                    data-price="${product.prix}" 
+                                    data-image="${product.image}">
+                                Ajouter au panier
+                            </button>
+                        `;
+                        container.appendChild(productDiv);
+                    });
+                }
+            };
+
+            xhr.send();
+        }
+
+        // Event listener to load products when a category is clicked
+        document.getElementById('category-list').addEventListener('click', function(e) {
+            if (e.target && e.target.matches('li[data-category]')) {
+                const category = e.target.dataset.category;
+                loadProducts(category); // Load products for selected category
+            }
+        });
+        // Charger la catégorie "tous-les-produits" par défaut lors du démarrage
+window.onload = function() {
+    loadProducts("tous-les-produits");
+};
+    </script>
+    <script>
+        // Récupérer les produits depuis le localStorage
+        document.addEventListener('DOMContentLoaded', function () {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = ''; // Réinitialiser le conteneur des produits
+
+            // Afficher chaque produit
+            products.forEach(function (product) {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('product');
+
+                const productImage = product.image ? `<img src="${product.image}" alt="${product.name}">` : '';
+                const productHtml = `
+                    <div class="product-card">
+                        ${productImage}
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p><strong>Prix: ${product.price} DT</strong></p>
+                    </div>
+                `;
+
+                productDiv.innerHTML = productHtml;
+                productsContainer.appendChild(productDiv);
+            });
+
+            if (products.length === 0) {
+                productsContainer.innerHTML = '<p>Aucun produit disponible.</p>';
+            }
+        });
+    </script>
+    
+        </div>
+    </div>
+    
+    <div class="card">
+        <h1>Card</h1>
+        <ul class="listCard">
+        </ul>
+        <div class="checkOut">
+            <div class="total">0</div>
+            <button class="btn-order">Commander</button>
+            <div class="closeShopping">Close</div>
+        </div>
+    </div>
+    <script>document.querySelector('.btn-order').addEventListener('click', () => {
+        // Récupérer le panier depuis le localStorage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+        if (cart.length === 0) {
+            alert("Votre panier est vide !");
+            return;
+        }
+    
+        // Rediriger vers une page de commande ou effectuer une action
+        window.location.href = 'confirmation_commande.html'; // Changez l'URL si nécessaire
+    });
+    </script>
+
+    <script>
+        
+      // Variables for shopping cart and UI elements
+const openCartButton = document.querySelector('.shopping'); // Button to open cart
+const closeCartButton = document.querySelector('.closeShopping'); // Button to close cart
+const cartItemList = document.querySelector('.listCard'); // Container for cart items
+const body = document.querySelector('body'); // Body element to toggle cart visibility
+const totalPriceElement = document.querySelector('.total'); // Element to display total price
+const totalQuantityElement = document.querySelector('.quantity'); // Element to display total quantity
+
+// Show the shopping cart
+openCartButton.addEventListener('click', () => {
+    body.classList.add('active');
+});
+
+// Hide the shopping cart
+closeCartButton.addEventListener('click', () => {
+    body.classList.remove('active');
+});
+
+// Add product to the cart and store in localStorage
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('add-to-cart')) {
+        // Get product details from data attributes
+        const productId = event.target.dataset.id;
+        const productName = event.target.dataset.name || "Unnamed Product"; // Default if name is missing
+        const productPrice = parseFloat(event.target.dataset.price) || 0; // Default if price is missing
+        const productImage = event.target.dataset.image || "placeholder.jpg"; // Default placeholder image
+
+        // Retrieve the current cart from localStorage or initialize an empty cart
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Check if the product already exists in the cart
+        const existingProduct = cart.find(item => item.id === productId);
+
+        if (existingProduct) {
+            // If the product exists, increase its quantity
+            existingProduct.quantity += 1;
+        } else {
+            // Add the new product to the cart
+            cart.push({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                image: productImage,
+                quantity: 1 // Default quantity is 1 when adding
+            });
+        }
+
+        // Save the updated cart back to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Update the cart display
+        updateCartDisplay();
+    }
+});
+
+// Function to update the cart display
+function updateCartDisplay() {
+    // Retrieve the current cart from localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cartItemList.innerHTML = ''; // Clear the cart item list for re-rendering
+    let totalCost = 0; // Initialize total cost
+    let totalItems = 0; // Initialize total items count
+
+    cart.forEach(item => {
+        // Create a container for the cart item
+        const cartItem = document.createElement('li');
+        cartItem.style.display = 'flex';
+        cartItem.style.alignItems = 'center';
+        cartItem.style.justifyContent = 'space-between';
+        cartItem.style.padding = '10px';
+        cartItem.style.borderBottom = '1px solid #ddd';
+
+        // Add product image
+        const productImage = document.createElement('img');
+        productImage.src = item.image;
+        productImage.alt = item.name;
+        productImage.style.width = '50px';
+        productImage.style.height = '50px';
+        productImage.style.marginRight = '10px';
+
+        // Add product details
+        const productDetails = document.createElement('div');
+        productDetails.style.flex = '1';
+        productDetails.style.display = 'flex';
+        productDetails.style.flexDirection = 'column';
+        productDetails.innerHTML = `
+            <strong>${item.name}</strong>
+            <span>${item.quantity} x ${item.price.toFixed(2)} DT = ${(item.price * item.quantity).toFixed(2)} DT</span>
+        `;
+
+        // Add a remove button
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.style.backgroundColor = '#e74c3c';
+        removeButton.style.color = 'white';
+        removeButton.style.border = 'none';
+        removeButton.style.padding = '5px 10px';
+        removeButton.style.cursor = 'pointer';
+        removeButton.style.borderRadius = '5px';
+
+        // Handle remove button click
+        removeButton.addEventListener('click', () => {
+            removeProductFromCart(item.id);
+        });
+
+        // Append the elements to the cart item container
+        cartItem.appendChild(productImage);
+        cartItem.appendChild(productDetails);
+        cartItem.appendChild(removeButton);
+
+        // Add the cart item to the list
+        cartItemList.appendChild(cartItem);
+
+        // Update total cost and total items
+        totalCost += item.price * item.quantity;
+        totalItems += item.quantity;
+    });
+
+    // Update the total price and total items in the UI
+    totalPriceElement.textContent = `Total: ${totalCost.toFixed(2)} DT`;
+    totalQuantityElement.textContent = `Items: ${totalItems}`;
+}
+
+// Function to remove a product from the cart
+function removeProductFromCart(productId) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== productId); // Remove the product by its ID
+    localStorage.setItem('cart', JSON.stringify(cart)); // Save the updated cart
+    updateCartDisplay(); // Refresh the cart display
+}
+
+// Display the cart when the page loads
+document.addEventListener('DOMContentLoaded', updateCartDisplay);
+
+
+</script>
+
+</body>
+</html>

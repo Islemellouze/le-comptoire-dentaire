@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un produit</title>
+    <link rel="stylesheet" href="style5.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ajouter un produit</h1>
+        <form action="ajouter_produit.php" method="POST" enctype="multipart/form-data">
+            <label for="product-name">Nom du produit</label>
+            <input type="text" id="product-name" name="product-name" required>
+
+            <label for="product-description">Description</label>
+            <textarea id="product-description" name="product-description" required></textarea>
+
+            <label for="product-price">Prix</label>
+            <input type="number" id="product-price" name="product-price" required>
+
+           <label for="product-category">Catégorie</label>
+<select id="product-category" name="product-category" required>
+    <option value="all">Tous les produits</option>
+    <option value="new">NEW</option>
+    <option value="promo">PROMO</option>
+    <option value="accessoires">ACCESSOIRES (146)</option>
+    <option value="anesthesie">ANESTHESIE (13)</option>
+    <option value="ciments-fonds">CIMENTS ET FONDS DE CAVITÉ (30)</option>
+    <option value="empreintes-accessoires">EMPREINTES ET ACCESSOIRES (56)</option>
+    <option value="endodontie-accessoires">ENDODONTIE ET ACCESSOIRES (290)</option>
+    <option value="films-radiologie">Films et RADIOLOGIE DENTAIRE (290)</option>
+    <option value="gros-equipements">GROS EQUIPEMENTS (18)</option>
+    <option value="implantologie">Implantologie (133)</option>
+    <option value="imprimantes-3d">IMPRIMANTES 3D</option>
+    <option value="instruments-rotatifs">INSTRUMENTS ROTATIFS (40)</option>
+    <option value="logiciels">LOGICIELS (4)</option>
+    <option value="pack-promo">PACK PROMO (0)</option>
+    <option value="petits-equipements">PETITS EQUIPEMENTS (69)</option>
+    <option value="produits-hygiene">PRODUITS D'HYGIENE ET DE DESINFECTION (290)</option>
+</select>
+
+            <label for="product-image">Image du produit</label>
+            <input type="file" id="product-image" name="product-image" accept="image/*">
+
+            <button type="submit">Ajouter le produit</button>
+        </form>
+    </div>
+</body>
+</html>

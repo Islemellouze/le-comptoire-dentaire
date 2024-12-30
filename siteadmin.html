@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Comptoir Dentaire</title>
+    <link rel="stylesheet" href="style4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="top-bar">
+            <div class="contact-info">
+                <span>📞 52 664 255</span>
+                <span>🚚 Livraison gratuite à partir de 200 DT sur toute la Tunisie</span>
+            </div>
+            
+           
+            <!-- Bouton Ajouter des produits (uniquement visible pour les admins) -->
+            <div class="admin-tools">
+                <a href="site.html" class="link" id="logout-button" style="display: none;"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+            <a href="ajouterproduit.html" >   <button id="add-product-button" style="display: none;">Ajouter des produits</button></a>
+            </div>
+        </div>
+        <script>
+            // Simule la vérification de l'état de connexion de l'utilisateur
+            document.addEventListener('DOMContentLoaded', function () {
+                // Supposons qu'un utilisateur soit connecté (cela peut être géré via un cookie ou une session)
+                const isLoggedIn = true; // Remplacez cela par la logique de vérification de la session réelle
+                
+                // Si l'utilisateur est connecté, on affiche le bouton de déconnexion et cache les boutons de connexion/inscription
+                if (isLoggedIn) {
+                    document.getElementById('logout-button').style.display = 'inline-block';
+                    document.querySelector('.link[href="connexion.html"]').style.display = 'none'; // Masquer le lien de connexion
+                    document.querySelector('.link[href="inscription.html"]').style.display = 'none'; // Masquer le lien d'inscription
+                } else {
+                    document.querySelector('.link[href="connexion.html"]').style.display = 'inline-block';
+                    document.querySelector('.link[href="inscription.html"]').style.display = 'inline-block';
+                }
+            });
+            </script>
+            
+        <div class="main-header">
+            <div class="logo">
+                <center><img src="images.png" alt="Logo" class="logo-img" width="250" height="90"></center>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Recherche..." class="search-input" size="100">
+                <button class="search-button" size="50">🔍</button>
+            </div>
+            
+        </div>
+        <div class="carousel-container">
+            <div class="carousel-slide">
+                <img src="image7.jpg" alt="Produit 1" class="carousel-image">
+        
+                <div class="carousel-text">
+                    
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="image4.png" alt="Produit 2" class="carousel-image">
+                <div class="carousel-text">
+                    
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="image3.jpg" alt="Produit 3" class="carousel-image">
+                <div class="carousel-text">
+                 
+                </div>
+            </div>
+        </div>
+        <script>
+            const slides = document.querySelectorAll('.carousel-slide');
+            let currentSlide = 0;
+        
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    if (i === index) {
+                        slide.classList.add('active');
+                    }
+                });
+            }
+        
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+        
+            // Changer de slide toutes les 5 secondes
+            setInterval(nextSlide, 5000);
+        
+            // Afficher le premier slide initialement
+            showSlide(currentSlide);
+        </script>
+    </header>
+
+    <section id="main-content">
+        <a href="#content" class="scroll-down" id="show-menu-btn">⬇</a>
+        <div id="content">
+            <div class="horizontal-bar"></div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="section-left">
+            <div class="categories-container">
+                <h2>Catégories</h2>
+                <ul class="category-list" id="category-list">
+                    <li data-category="tous-les-produits">Tous les produits</li>
+                    <li class="new" data-category="new">NEW</li>
+                    <li class="promo" data-category="promo">PROMO</li>
+                    <li class="accessoires" data-category="accessoires">ACCESSOIRES (146)</li>
+                    <li data-category="anesthesie">ANESTHESIE (13)</li>
+                    <li data-category="ciments">CIMENTS ET FONDS DE CAVITÉ (30)</li>
+                    <li data-category="empreintes">EMPREINTES ET ACCESSOIRES (56)</li>
+                    <li data-category="endodontie">ENDODONTIE ET ACCESSOIRES (290)</li>
+                    <li data-category="films">FILMS ET RADIOLOGIE DENTAIRE (290)</li>
+                    <li data-category="equipements">GROS EQUIPEMENTS (18)</li>
+                    <li data-category="implantologie">Implantologie (133)</li>
+                    <li data-category="imprimantes-3d">IMPRIMANTES 3D</li>
+                    <li data-category="rotatifs">INSTRUMENTS ROTATIFS (40)</li>
+                    <li data-category="logiciels">LOGICIELS (4)</li>
+                    <li data-category="pack-promo">PACK PROMO (0)</li>
+                    <li data-category="petits-equipements">PETITS EQUIPEMENTS (69)</li>
+                    <li data-category="hygiene">PRODUITS D'HYGIENE ET DE DESINFECTION (290)</li>
+                </ul> 
+            </div>
+        </div>
+
+        <div class="section-right">
+            <div class="products-container">
+                <div id="products-grid" class="products-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section address">
+                <h3>Adresse:</h3>
+                <p>Route de Tunis Km 7.5<br>Imm. Kanz 1er Étage N°3<br>2083 Ariana TUNISIE</p>
+                <p><strong>Tel:</strong> +216 52 664 255</p>
+                <p><strong>Email:</strong> islemellouze@gmail.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section links">
+                <h3>Liens utiles</h3>
+                <ul>
+                    <li><a href="inscription.html">S'inscrire</a></li>
+                    <li><a href="connexion.html">Se connecter</a></li>
+                    <li><a href="panier.html">Mon Panier</a></li>
+                </ul>
+            </div>
+            <div class="footer-section payment">
+                <h3>Le Comptoir Dentaire</h3>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="logos">
+                <div class="logo-item">
+                    <p><strong>Livraison:</strong></p>
+                    <img src="image/first.png" alt="Aramex">
+                </div>
+                <div class="logo-item">
+                    <p><strong>Paiement:</strong></p>
+                    <img src="image/cash3.jpg" alt="Cash on Delivery">
+                </div>
+                <div class="logo-item">
+                    <p><strong>Conventionné Avec BTS:</strong></p>
+                    <img src="image/conv.jpg" alt="BTS Bank">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simuler la variable "isAdmin" (Remplacez ceci par une logique côté serveur)
+        const isAdmin = true; // Exemple : l'utilisateur est admin
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const addProductButton = document.getElementById("add-product-button");
+
+            // Afficher le bouton si l'utilisateur est admin
+            if (isAdmin) {
+                addProductButton.style.display = "inline-block";
+            }
+
+            // Rediriger vers une page pour ajouter un produit
+            addProductButton.addEventListener("click", () => {
+                window.location.href = "ajouter_produit.html";
+            });
+        });
+    </script>
+</body>
+</html>

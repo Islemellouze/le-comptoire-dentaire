@@ -1,0 +1,96 @@
+/* Panier */
+#cart-items {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.cart-item img {
+    width: 80px;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.cart-item p {
+    margin-right: auto;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.cart-item .price {
+    font-size: 16px;
+    color: #007acc;
+    margin-right: 15px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls input {
+    width: 40px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.quantity-controls button {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.quantity-controls button:hover {
+    background-color: #005fa3;
+}
+
+.remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.remove-btn:hover {
+    background-color: #cc0000;
+}
+
+#checkout-btn {
+    display: block;
+    width: 100%;
+    background-color: #007acc;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+#checkout-btn:hover {
+    background-color: #005fa3;
+}

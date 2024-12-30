@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'inscription</title>
+    <link rel="stylesheet" href="style1.css">
+    <script>
+        // Validation du formulaire avec JavaScript
+        function validerFormulaire() {
+            const Nom = document.getElementById('username').value;
+            const Email = document.getElementById('email').value;
+            const Mot_de_passe = document.getElementById('password').value;
+            const Confirmer_le_mot_de_passe = document.getElementById('confirm_password').value;
+
+            if (!Nom || !Email || !Mot_de_passe || !Confirmer_le_mot_de_passe) {
+                alert('Veuillez remplir tous les champs.');
+                return false;
+            }
+
+            if (Mot_de_passe !== Confirmer_le_mot_de_passe) {
+                alert('Les mots de passe ne correspondent pas.');
+                return false;
+            }
+
+            // Confirmation avant d'envoyer le formulaire
+            return confirm('Voulez-vous vraiment ajouter ce client ?');
+        }
+    </script>
+</head>
+<body>
+    <div class="registration-page">
+        <h1 class="page-title">Page d'inscription</h1>
+        <p class="info-text">
+            Si vous avez déjà créé un compte, veuillez vous connecter à la <a href="connexion.html">page de connexion</a>.
+        </p>
+        <form action="ajouter_client.php" method="post" onsubmit="return validerFormulaire();">
+            <div class="form-group">
+                <label for="username">Nom :</label>
+                <input type="text" id="username" name="username" placeholder="Votre nom" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" placeholder="Votre email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirmer le mot de passe :</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmez le mot de passe" required>
+            </div>
+            <label for="role">Rôle :</label>
+            <select id="role" name="role" required>
+                <option value="admin">Admin</option>
+                <option value="user">Utilisateur</option>
+            </select><br><br>
+            <button type="submit" name="submit" class="submit-button">S'inscrire</button>
+        </form>
+    </div>
+</body>
+</html>

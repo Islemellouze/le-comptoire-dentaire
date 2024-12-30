@@ -1,0 +1,149 @@
+/* Style global */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container principal */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre principal */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Styles des labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Styles des champs de saisie */
+input[type="text"],
+input[type="number"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Styles pour la zone de texte (textarea) */
+textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+/* Styles du bouton */
+button[type="submit"] {
+    background-color: #42a8a3;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+/* Effet au survol du bouton */
+button[type="submit"]:hover {
+    background-color: #49ad98;
+}
+
+/* Messages d'erreur */
+.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+/* Pour les petites tailles d'écran */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+        margin: 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    label,
+    input,
+    textarea,
+    button {
+        font-size: 14px;
+    }
+}
+/* Style pour le label */
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Style de base pour la liste déroulante */
+select {
+    width: 100%; /* Prend toute la largeur de son conteneur */
+    padding: 10px; /* Ajoute de l'espace interne pour un meilleur confort visuel */
+    font-size: 16px; /* Taille de texte adaptée */
+    border: 1px solid #ccc; /* Bordure fine et neutre */
+    border-radius: 4px; /* Coins légèrement arrondis */
+    background-color: #c7e4e1; /* Couleur de fond douce */
+    color: #333; /* Couleur du texte */
+    appearance: none; /* Supprime le style natif pour uniformiser */
+    cursor: pointer; /* Curseur pointeur pour indiquer qu'il est interactif */
+}
+
+/* Ajout d'une flèche personnalisée */
+select:after {
+    content: "▼"; /* Ajouter une flèche vers le bas */
+    font-size: 12px;
+    color: #333;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Empêche les clics sur la flèche */
+}
+
+/* Style au survol */
+select:hover {
+    border-color: #888; /* Change légèrement la bordure */
+    background-color: #c0f0e5; /* Fond blanc au survol */
+}
+
+/* Style lorsque l'élément est sélectionné */
+select:focus {
+    outline: none; /* Supprime l'effet de focus natif */
+    border-color: #007BFF; /* Bordure bleue pour indiquer la sélection */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Effet lumineux */
+}
+
+/* Conteneur pour mieux espacer */
+.container {
+    max-width: 400px; /* Largeur maximale du conteneur */
+    margin: 20px auto; /* Centre le conteneur sur la page */
+}
+

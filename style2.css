@@ -1,0 +1,101 @@
+/* Style global */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Style de la page de connexion */
+.login-page {
+    background-color: white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Titre */
+.page-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Texte informatif */
+.info-text {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.info-text a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.info-text a:hover {
+    text-decoration: underline;
+}
+
+/* Style du formulaire */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Groupe de champs */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+}
+
+/* Bouton de connexion */
+.submit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Lien mot de passe oublié */
+.forgot-password {
+    margin-top: 10px;
+}
+
+.forgot-password a {
+    color: #007bff;
+}
